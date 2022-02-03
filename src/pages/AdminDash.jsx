@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-function Admin_Dash() {
+function AdminDash() {
 
     // ------------------ fetch ------------------
 
@@ -214,4 +214,4 @@ function Admin_Dash() {
   );
 }
 
-export default Admin_Dash;
+export default AdminDash;

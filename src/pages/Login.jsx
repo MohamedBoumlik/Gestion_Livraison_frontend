@@ -1,6 +1,40 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    let navigate = useNavigate();
+
+
+
+    const login = () =>{
+
+        axios.post('http://127.0.0.1:4000/api/Admin_General/',{
+
+            email: email,
+            password: password
+
+        })
+        .then(res => {
+
+            let token = res.data.token;
+            let role = res.data.role;
+            
+            if (role === 'admin' ) {
+                localStorage.setItem("token", token);
+                navigate("/Admin_Dash", { replace: true });
+            }
+
+        })
+        .catch(err =>console.log(err))
+        
+    }
+    
+
   return (
 
     <div class="font-sans">
@@ -13,14 +47,14 @@ const Login = () => {
                     <label for="" class="block mt-3 text-sm text-gray-700 text-center font-semibold">
                         Login
                     </label>
-                    <form class="mt-10">
+                    <div class="mt-10">
                                     
                         <div>
-                            <input type="email" placeholder="Enter your email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
+                            <input onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Enter your email" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
                         </div>
             
                         <div class="mt-7 mb-7">                
-                            <input type="password" placeholder="Password" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>                           
+                            <input onChange={(e)=>{setPassword(e.target.value)}} type="password" placeholder="Password" class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>                           
                         </div>
 
                         <div class="flex mt-16 items-center text-center">
@@ -32,12 +66,12 @@ const Login = () => {
                         </div>
             
                         <div class="mt-7">
-                            <button class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                            <button onClick={login} class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                 Login
                             </button>
                         </div>
         
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
