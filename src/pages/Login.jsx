@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
@@ -8,8 +8,6 @@ const Login = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     let navigate = useNavigate();
-
-
 
     const login = () =>{
 
@@ -26,6 +24,7 @@ const Login = () => {
             
             if (role === 'admin' ) {
                 localStorage.setItem("token", token);
+                localStorage.setItem("role", role);
                 navigate("/Admin_Dash", { replace: true });
             }
 

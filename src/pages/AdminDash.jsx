@@ -1,7 +1,9 @@
 import { MdDelete } from 'react-icons/md';
 import { FiEdit } from 'react-icons/fi';
+import { AiOutlinePoweroff } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 function AdminDash() {
@@ -30,6 +32,7 @@ function AdminDash() {
     const [email,setEmail] = useState('');
     const [id,setId] = useState('');
     const [password,setPassword] = useState('');
+    let navigate = useNavigate();
 
     const postData = () =>{
 
@@ -79,6 +82,18 @@ function AdminDash() {
 
     }
 
+    // ------------------ Logout ------------------
+
+   
+    const logout = () => {
+
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate("/adminLogin", { replace: true });
+      
+    }
+
 
   return (
 
@@ -87,12 +102,16 @@ function AdminDash() {
         <div class="p-6">
 
             <h1 class='flex-initial text-xl italic underline decoration-cyan-400'>Admin's Dashboard</h1>
+            <div className='flex flex-row-reverse'>
+                <button className='text-red-600 text-3xl' onClick={() => logout() }><AiOutlinePoweroff/></button>
+            </div>
 
         </div>
 
         {/* --------------------------- Form ---------------------- */}
 
         <div class="bg-white shadow rounded-lg p-6 mx-5">
+            
             <div class="grid lg:grid-cols-2 gap-6">
                 <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
                    <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
@@ -168,9 +187,9 @@ function AdminDash() {
                         </thead>
 
                         <tbody class="bg-white w-full">
-                            {data.map(element =>
+                            {data.map((element , index) =>
 
-                                <tr>
+                                <tr key={index}>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
 
                                         <div class="m-auto">
